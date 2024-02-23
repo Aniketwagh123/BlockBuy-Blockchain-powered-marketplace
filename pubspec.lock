@@ -390,7 +390,7 @@ packages:
     source: hosted
     version: "7.6.7"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: a2bbf9d017fcced29139daa8ed2bba4ece450ab222871df93ca9eec6f80c34ba
@@ -979,7 +979,7 @@ packages:
     source: hosted
     version: "0.3.0"
   web3dart:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: web3dart
       sha256: "31f93cf84b8c874d7ffb363959249d7e479115fe12cf46f30b037dcad6750b22"

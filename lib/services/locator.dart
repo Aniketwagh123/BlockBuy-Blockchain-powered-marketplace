@@ -1,4 +1,4 @@
-import 'package:aniket_s_application1/services/services.dart';
+import 'package:aniket_s_application1/services/walletConnectServices.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;

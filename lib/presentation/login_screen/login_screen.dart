@@ -1,7 +1,6 @@
 import 'package:aniket_s_application1/services/locator.dart';
-import 'package:aniket_s_application1/services/services.dart';
-import 'package:aniket_s_application1/widgets/custom_elevated_button.dart';
-import 'package:get_it/get_it.dart';
+import 'package:aniket_s_application1/services/walletConnectServices.dart';
+import 'package:web3modal_flutter/widgets/web3modal.dart';
 
 import 'bloc/login_bloc.dart';
 import 'models/login_model.dart';
@@ -46,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                   _buildOrLine(context),
                   SizedBox(height: 16.v),
                   SizedBox(height: 16.v),
-                  SingleChildScrollView(child: ConnectWallet()),
+                  const SingleChildScrollView(child: ConnectWallet()),
                 ],
               ),
             ),
@@ -307,22 +306,29 @@ class _ConnectWalletState extends State<ConnectWallet> {
     );
   }
 
+  
   void _onPressedSign() async {
-  await _w3mService.launchConnectedWallet();
-  String sss = _w3mService.session?.address?.toString() ?? "N/A";
 
-  // Set params outside the constant list
-  List<dynamic> _params = ['this is a message from BlockBuy to see digital signature demo', sss];
-  print(_params);
+    await _w3mService.launchConnectedWallet();
+    String sss = _w3mService.session?.address?.toString() ?? "N/A";
 
-  await _w3mService.web3App!.request(
-    topic: _w3mService.session!.topic.toString(),
-    chainId: 'eip155:11155111',
-    request: SessionRequestParams(
-      method: 'personal_sign',
-      params: _params,
-    ),
-  );
-}
+    // Set params outside the constant list
+    List<dynamic> _params = [
+      'this is a message from BlockBuy to see digital signature demo',
+      sss
+    ];
+    print(_params);
+
+    await _w3mService.web3App!.request(
+      topic: _w3mService.session!.topic.toString(),
+      chainId: 'eip155:11155111',
+      request: SessionRequestParams(
+        method: 'personal_sign',
+        params: _params,
+      ),
+    );
+    
+  }
+
 
 }
