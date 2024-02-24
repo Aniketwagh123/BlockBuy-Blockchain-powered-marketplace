@@ -1,3 +1,4 @@
+import 'package:aniket_s_application1/services/blockchain_fun.dart';
 import 'package:aniket_s_application1/services/locator.dart';
 import 'package:aniket_s_application1/services/walletConnectServices.dart';
 import 'package:web3modal_flutter/widgets/web3modal.dart';
@@ -309,26 +310,28 @@ class _ConnectWalletState extends State<ConnectWallet> {
   
   void _onPressedSign() async {
 
-    await _w3mService.launchConnectedWallet();
-    String sss = _w3mService.session?.address?.toString() ?? "N/A";
+    // await _w3mService.launchConnectedWallet();
+    // String sss = _w3mService.session?.address?.toString() ?? "N/A";
 
-    // Set params outside the constant list
-    List<dynamic> _params = [
-      'this is a message from BlockBuy to see digital signature demo',
-      sss
-    ];
-    print(_params);
+    // // Set params outside the constant list
+    // List<dynamic> _params = [
+    //   'this is a message from BlockBuy to see digital signature demo',
+    //   sss
+    // ];
+    // await _w3mService.web3App!.request(
+    //   topic: _w3mService.session!.topic.toString(),
+    //   chainId: 'eip155:11155111',
+    //   request: SessionRequestParams(
+    //     method: 'personal_sign',
+    //     params: _params,
+    //   ),
+    // );
+    await getValue();
+    // await setValue();
+    // await getValue();
+    // await callReadFunction();
 
-    await _w3mService.web3App!.request(
-      topic: _w3mService.session!.topic.toString(),
-      chainId: 'eip155:11155111',
-      request: SessionRequestParams(
-        method: 'personal_sign',
-        params: _params,
-      ),
-    );
     
   }
-
-
 }
+

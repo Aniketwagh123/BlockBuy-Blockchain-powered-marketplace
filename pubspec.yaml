@@ -43,7 +43,8 @@ dependencies:
   carousel_slider: ^4.0.0
   smooth_page_indicator: ^1.0.0+2
   dio: ^5.0.3
-  web3modal_flutter: ^3.1.0
+  web3modal_flutter: ^3.1.1-beta02
+  # web3modal_flutter: ^3.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
