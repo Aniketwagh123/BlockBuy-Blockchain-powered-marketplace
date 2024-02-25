@@ -19,9 +19,9 @@ final _sepolia = W3MChainInfo(
   );
 
 W3MService _w3mService = getIt<WalletServices>().ge_w3mService();
-Future<void> hi() async{
-  W3MChainPresets.chains.putIfAbsent(_sepolia.chainId, () => _sepolia);
-}
+// Future<void> hi() async{
+//   W3MChainPresets.chains.putIfAbsent(_sepolia.chainId, () => _sepolia);
+// }
 
 
 final deployedContract = DeployedContract(
