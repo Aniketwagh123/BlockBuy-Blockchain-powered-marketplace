@@ -299,7 +299,7 @@ final Map<String, String> enUs = {
   "lbl_man_shoes": "Man Shoes",
   "lbl_nike_air_max": "Nike Air Max",
   "lbl_notification": "Notification",
-  "lbl_offer": "Offer",
+  "lbl_offer": "Add Product",
   "lbl_office_bag": "Office Bag",
   "lbl_order": "Order",
   "lbl_password": "Password",

@@ -1,16 +1,35 @@
-// ignore_for_file: must_be_immutable
-
 part of 'offer_screen_bloc.dart';
 
-/// Abstract class for all events that can be dispatched from the
-///OfferScreen widget.
-///
-/// Events must be immutable and implement the [Equatable] interface.
-@immutable
-abstract class OfferScreenEvent extends Equatable {}
+// Define events
+sealed class OfferScreenEvent {}
 
-/// Event that is dispatched when the OfferScreen widget is first created.
-class OfferScreenInitialEvent extends OfferScreenEvent {
+class PickImagesEvent extends OfferScreenEvent {}
+
+class AddProductEvent extends OfferScreenEvent {
+  final String productName;
+  final String description;
+  final double price;
+  final String category;
+  final int stock;
+  final String color;
+  final String size;
+  final String material;
+  final List<String> imagePaths;
+
+  AddProductEvent({
+    required this.productName,
+    required this.description,
+    required this.price,
+    required this.category,
+    required this.stock,
+    required this.color,
+    required this.size,
+    required this.material,
+    required this.imagePaths,
+  });
+
   @override
-  List<Object?> get props => [];
+  String toString() {
+    return 'AddProductEvent(productName: $productName, description: $description, price: $price, category: $category, stock: $stock, color: $color, size: $size, material: $material, imagePaths: $imagePaths)';
+  }
 }

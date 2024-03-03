@@ -44,7 +44,7 @@ Future<void> getValue() async {
 }
 
 Future<void> setValue() async {
-  final newValue = BigInt.from(123);
+  final newValue = BigInt.from(12);
   // final data = deployedContract.function('setValue').encodeCall([
   //   newValue,
   // ]);

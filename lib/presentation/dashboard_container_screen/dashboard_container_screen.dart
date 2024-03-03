@@ -81,7 +81,7 @@ class DashboardContainerScreen extends StatelessWidget {
       case AppRoutes.cartPage:
         return CartPage.builder(context);
       case AppRoutes.offerScreenPage:
-        return OfferScreenPage.builder(context);
+        return OfferScreenPage();
       case AppRoutes.accountPage:
         return AccountPage.builder(context);
       default:

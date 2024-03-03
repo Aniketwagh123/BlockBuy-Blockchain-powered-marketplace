@@ -1,20 +1,22 @@
-// ignore_for_file: must_be_immutable
-
 part of 'offer_screen_bloc.dart';
 
-/// Represents the state of OfferScreen in the application.
-class OfferScreenState extends Equatable {
-  OfferScreenState({this.offerScreenModelObj});
+// Define states
+sealed class OfferScreenState {
+}
 
-  OfferScreenModel? offerScreenModelObj;
+class InitialState extends OfferScreenState {}
 
-  @override
-  List<Object?> get props => [
-        offerScreenModelObj,
-      ];
-  OfferScreenState copyWith({OfferScreenModel? offerScreenModelObj}) {
-    return OfferScreenState(
-      offerScreenModelObj: offerScreenModelObj ?? this.offerScreenModelObj,
-    );
-  }
+class ImagesSelectedState extends OfferScreenState {
+  final List<String> imagePaths;
+
+  ImagesSelectedState(this.imagePaths);
+}
+
+class ProductAddedState extends OfferScreenState {}
+
+
+
+class ErrorState extends OfferScreenState {
+  final String errorMessage;
+  ErrorState(this.errorMessage);
 }

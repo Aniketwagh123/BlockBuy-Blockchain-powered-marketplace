@@ -13,7 +13,7 @@ class ProgressDialogUtils {
           barrierDismissible: isCancellable,
           context: NavigatorService.navigatorKey.currentState!.overlay!.context,
           builder: (BuildContext context) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator.adaptive(
                 strokeWidth: 4,
                 valueColor: AlwaysStoppedAnimation<Color>(
@@ -28,9 +28,10 @@ class ProgressDialogUtils {
 
   ///common method for hiding progress dialog
   static void hideProgressDialog() {
-    if (isProgressVisible)
+    if (isProgressVisible) {
       Navigator.pop(
           NavigatorService.navigatorKey.currentState!.overlay!.context);
+    }
     isProgressVisible = false;
   }
 }

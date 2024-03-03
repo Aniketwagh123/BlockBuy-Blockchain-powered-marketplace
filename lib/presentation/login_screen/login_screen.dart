@@ -1,6 +1,7 @@
 import 'package:aniket_s_application1/services/blockchain_fun.dart';
 import 'package:aniket_s_application1/services/locator.dart';
 import 'package:aniket_s_application1/services/walletConnectServices.dart';
+import 'package:aniket_s_application1/widgets/custom_elevated_button.dart';
 import 'package:web3modal_flutter/widgets/web3modal.dart';
 
 import 'bloc/login_bloc.dart';
@@ -287,8 +288,11 @@ class _ConnectWalletState extends State<ConnectWallet> {
               ),
             ],
           ),
-          ElevatedButton(
-              onPressed: _onPressedSign, child: const Text("Personal Sign"))
+          CustomElevatedButton(
+            text: 'sign message',
+            margin: EdgeInsets.only(left: 50.h, right: 50.h, top: 50.v),
+            
+            onPressed: _onPressedSign)
         ],
       ),
     );
@@ -327,7 +331,7 @@ class _ConnectWalletState extends State<ConnectWallet> {
     //   ),
     // );
     await getValue();
-    // await setValue();
+    await setValue();
     // await getValue();
     // await callReadFunction();
 

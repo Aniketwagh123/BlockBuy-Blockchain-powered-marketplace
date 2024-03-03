@@ -1,9 +1,9 @@
 class ProductData {
-  String _name;
-  String _category;
-  String _imageLink;
-  String _descLink;
-  BigInt _price;
+  final String _name;
+  final String _category;
+  final String _imageLink;
+  final String _descLink;
+  final BigInt _price;
 
   ProductData(this._name, this._category, this._imageLink, this._descLink, this._price);
 

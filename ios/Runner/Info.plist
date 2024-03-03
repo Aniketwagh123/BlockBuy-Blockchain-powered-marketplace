@@ -53,5 +53,10 @@
 	<string>rainbow</string>
 	<!-- Add other wallet schemes names here -->
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to access photos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to take pictures</string>
+
 </dict>
 </plist>
