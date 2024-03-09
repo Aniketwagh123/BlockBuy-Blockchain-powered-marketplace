@@ -313,7 +313,10 @@ class _ConnectWalletState extends State<ConnectWallet> {
 
   
   void _onPressedSign() async {
-
+    // NavigatorService.pushNamed(
+    //   AppRoutes.dashboardContainerScreen,
+    // );
+    await getAllProducts();
     // await _w3mService.launchConnectedWallet();
     // String sss = _w3mService.session?.address?.toString() ?? "N/A";
 
@@ -330,8 +333,24 @@ class _ConnectWalletState extends State<ConnectWallet> {
     //     params: _params,
     //   ),
     // );
-    await getValue();
-    await setValue();
+    // await getValue();
+    // var txHash = await setValue(50);
+    // print('set result: $txHash');
+    
+    // final status = await checkTransactionStatus(txHash);
+    // if (status != null) {
+    //   print('Transaction status: ${status.status}');
+    // } else {
+    //   print('Failed to retrieve transaction receipt.');
+    // }
+
+    // final receipt = await getTransactionReceipt(txHash);
+    // if (receipt != null) {
+    //   // Process the receipt
+    //   print('Transaction receipt: $receipt');
+    // } else {
+    //   print('Failed to retrieve transaction receipt.');
+    // }
     // await getValue();
     // await callReadFunction();
 

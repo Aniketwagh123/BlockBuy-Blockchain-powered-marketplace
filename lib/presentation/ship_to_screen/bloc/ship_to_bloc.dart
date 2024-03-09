@@ -24,26 +24,11 @@ class ShipToBloc extends Bloc<ShipToEvent, ShipToState> {
   List<ShiptolistItemModel> fillShiptolistItemList() {
     return [
       ShiptolistItemModel(
-          priscekila: "Priscekila",
-          address:
-              "3711 Spring Hill Rd undefined Tallahassee, Nevada 52874 United States",
-          mobileNo: "+99 1234567890",
+          priscekila: "Home",
+          address:"410507 NCER, Vishnupur, Dist, Tal, Maval, Talegaon Dabhade, Maharashtra, India",
+          mobileNo: "+91 9322365844",
           edit: "Edit",
           delete: "Delete"),
-      ShiptolistItemModel(
-          priscekila: "Priscekila",
-          address:
-              "3711 Spring Hill Rd undefined Tallahassee, Nevada 52874 United States",
-          mobileNo: "+99 1234567890",
-          edit: "Edit",
-          delete: "Delete"),
-      ShiptolistItemModel(
-          priscekila: "Priscekila",
-          address:
-              "3711 Spring Hill Rd undefined Tallahassee, Nevada 52874 United States",
-          mobileNo: "+99 1234567890",
-          edit: "Edit",
-          delete: "Delete")
     ];
   }
 }

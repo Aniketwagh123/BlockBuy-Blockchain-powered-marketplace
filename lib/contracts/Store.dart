@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:web3modal_flutter/web3modal_flutter.dart';
 
-const String contractAddress = '0x88E1E852bfA3B1b5d6B78a4a84f759a8b130534c';
+const String contractAddress = '0x8BF5b3c34A7489D2d020843E23f655E0654A8058';
 const String oner = '0xa932d2078bE5a0E4471991E078e4a6f5F8934D51';
 
 
@@ -383,36 +383,6 @@ const abi = [
 				"internalType": "string",
 				"name": "",
 				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "enum Store.ProductStatus",
-				"name": "",
-				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",

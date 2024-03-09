@@ -9,6 +9,8 @@ class FsnikeairmaxItemModel {
     this.oldPrice,
     this.offer,
     this.id,
+    this.jsonData,
+    
   }) {
     image = image ?? ImageConstant.imgProductImage;
     fSNikeAirMax = fSNikeAirMax ?? "FS - Nike Air Max 270 React...";
@@ -16,6 +18,7 @@ class FsnikeairmaxItemModel {
     oldPrice = oldPrice ?? "534,33";
     offer = offer ?? "24% Off";
     id = id ?? "";
+    jsonData = jsonData?? {"":[]};
   }
 
   String? image;
@@ -29,4 +32,7 @@ class FsnikeairmaxItemModel {
   String? offer;
 
   String? id;
+  
+  Map<String, dynamic>? jsonData;
+
 }

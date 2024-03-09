@@ -1,3 +1,5 @@
+import 'package:web3modal_flutter/web3modal_flutter.dart';
+
 import '../product_detail_screen/widgets/fortyeight_item_widget.dart';
 import '../product_detail_screen/widgets/products_item_widget.dart';
 import '../product_detail_screen/widgets/recomended_item_widget.dart';
@@ -21,11 +23,15 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({Key? key}) : super(key: key);
+  static Map<String, dynamic>? arguments;
 
   static Widget builder(BuildContext context) {
+    arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    print("args passed ==>>$arguments");
     return BlocProvider<ProductDetailBloc>(
       create: (context) => ProductDetailBloc(
-        ProductDetailState(productDetailModelObj: ProductDetailModel()))
+          ProductDetailState(productDetailModelObj: ProductDetailModel()))
         ..add(ProductDetailInitialEvent()),
       child: ProductDetailScreen(),
     );
@@ -39,6 +45,8 @@ class ProductDetailScreen extends StatelessWidget {
     double screenHeight = mediaQueryData.size.height;
 
     return SafeArea(
+      bottom: false,
+      top: false, // Remove the bottom padding
       child: Scaffold(
         appBar: _buildAppBar(context),
         body: Container(
@@ -78,7 +86,6 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
@@ -90,8 +97,7 @@ class ProductDetailScreen extends StatelessWidget {
               onTapArrowLeft(context);
             }),
         title: AppbarSubtitle(
-            text: "msg_nike_air_max_2702".tr,
-            margin: EdgeInsets.only(left: 12.h)),
+            text: "Product Detail", margin: EdgeInsets.only(left: 12.h)),
         actions: [
           AppbarTrailingImage(
               imagePath: ImageConstant.imgNavExplore,
@@ -163,7 +169,7 @@ class ProductDetailScreen extends StatelessWidget {
                     Expanded(
                         child: SizedBox(
                             width: 275.h,
-                            child: Text("msg_nike_air_zoom_pegasus".tr,
+                            child: Text(arguments?['productName'],
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: CustomTextStyles.titleLargeOnPrimary
@@ -182,7 +188,8 @@ class ProductDetailScreen extends StatelessWidget {
       SizedBox(height: 16.v),
       Padding(
           padding: EdgeInsets.only(left: 16.h),
-          child: Text("lbl_299_43".tr, style: theme.textTheme.titleLarge))
+          child: Text("\$ ${arguments?['price']}",
+              style: theme.textTheme.titleLarge))
     ]);
   }
 
@@ -244,33 +251,33 @@ class ProductDetailScreen extends StatelessWidget {
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Padding(
                 padding: EdgeInsets.only(bottom: 45.v),
-                child: Text("lbl_shown".tr,
+                child: Text("Seller Email",
                     style: CustomTextStyles.bodySmallOnPrimary)),
             Container(
-                width: 169.h,
-                margin: EdgeInsets.only(left: 128.h),
-                child: Text("msg_laser_blue_anth".tr,
+                width: 169.adaptSize,
+                margin: EdgeInsets.only(left: 128.adaptSize),
+                child: Text(arguments?['sellerEmail'],
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.right,
                     style: theme.textTheme.bodySmall!.copyWith(height: 1.80)))
           ]),
-          SizedBox(height: 18.v),
+          SizedBox(height: 1.v),
           Row(children: [
             Padding(
                 padding: EdgeInsets.only(top: 1.v),
-                child: Text("lbl_style".tr,
+                child: Text("Material".tr,
                     style: CustomTextStyles.bodySmallOnPrimary)),
             Padding(
                 padding: EdgeInsets.only(left: 234.h),
-                child:
-                    Text("lbl_cd0113_400".tr, style: theme.textTheme.bodySmall))
+                child: Text(arguments?['material'],
+                    style: theme.textTheme.bodySmall))
           ]),
           SizedBox(height: 19.v),
           Container(
               width: 320.h,
               margin: EdgeInsets.only(right: 31.h),
-              child: Text("msg_the_nike_air_max".tr,
+              child: Text(arguments?['description'],
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodySmall!.copyWith(height: 1.80)))
@@ -395,8 +402,38 @@ class ProductDetailScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildAddToCart(BuildContext context) {
     return CustomElevatedButton(
-        text: "lbl_add_to_cart".tr,
-        margin: EdgeInsets.only(left: 16.h, right: 16.h, bottom: 50.v));
+      text: "lbl_add_to_cart".tr,
+      margin: EdgeInsets.only(left: 16.h, right: 16.h, bottom: 50.v),
+      onPressed: () async {
+        SharedPreferences sp = await SharedPreferences.getInstance();
+        String cartItem =
+            "${_getIPFSpath(arguments?['imagePaths'][0] ?? "")},${arguments?['productName'] ?? ""},${arguments?['price'] ?? ""}";
+        List<String> items = sp.getStringList('cart') ?? [];
+        items.add(cartItem);
+        sp.setStringList('cart', items);
+        // ignore: use_build_context_synchronously
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 100,
+              child: const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(Icons.check_circle, color: Colors.green, size: 40),
+                    SizedBox(height: 8),
+                    Text('Product added to cart successfully',
+                        style: TextStyle(fontSize: 16)),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   /// Navigates to the previous screen.
@@ -416,5 +453,9 @@ class ProductDetailScreen extends StatelessWidget {
     NavigatorService.pushNamed(
       AppRoutes.reviewProductScreen,
     );
+  }
+
+  String _getIPFSpath(String hash) {
+    return 'https://ivory-capable-basilisk-139.mypinata.cloud/ipfs/${hash}?pinataGatewayToken=1ROdYSQDquDO-YnO-pxxqQzly6dWUl89hzcRtKVVovYsB7x4AGr1ZV-LzRCpQBUj';
   }
 }

@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'package:aniket_s_application1/presentation/offer_screen_page/bloc/offer_screen_bloc.dart';
+import 'package:aniket_s_application1/services/blockchain_fun.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import '/core/app_export.dart';
@@ -35,8 +40,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     ];
   }
 
-  List<FsnikeairmaxItemModel> fillFsnikeairmaxItemList() {
-    return [
+  Future<List<FsnikeairmaxItemModel>> fillFsnikeairmaxItemList(DashboardState state) async {
+    List<FsnikeairmaxItemModel> ls = [
       FsnikeairmaxItemModel(
           image: ImageConstant.imgProductImage,
           fSNikeAirMax: "FS - Nike Air Max 270 React...",
@@ -56,6 +61,37 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           oldPrice: "534,33",
           offer: "24% Off")
     ];
+    
+    List<String> hashList = await getAllProducts();
+    for (int i = 0; i < hashList.length; i++) {
+      var jsonData = await _fetchData(hashList[i]);
+      // jsonData = jsonData;
+      
+
+      String productName = jsonData['productName'];
+      String? imagePath;
+      try{
+        imagePath = _getIPFSpath(jsonData['imagePaths'][0]);
+      }catch(e){
+        print("ni images");
+      }
+      // String category = productData['category'];
+      String price = jsonData['price'].toString();
+
+      // Generate the FSNikeAirMaxItemModel
+      FsnikeairmaxItemModel itemModel = FsnikeairmaxItemModel(
+        image: imagePath ?? ImageConstant.imgProductImage0, // Replace with actual image path
+        fSNikeAirMax: productName,
+        price: price,
+        oldPrice:
+            'NA', // You can set oldPrice to empty string or some default value
+        offer: 'NA',
+        jsonData: jsonData // You can set offer to empty string or some default value
+      );
+      ls.add(itemModel);
+    }
+
+    return ls ;
   }
 
   List<MsnikeairmaxItemModel> fillMsnikeairmaxItemList() {
@@ -63,7 +99,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       MsnikeairmaxItemModel(
           image: ImageConstant.imgProductImage2,
           mSNikeAirMax: "MS - Nike Air Max 270 React...",
-          price: "299,43",
+          price: "499,43",
           oldPrice: "534,33",
           offer: "24% Off"),
       MsnikeairmaxItemModel(
@@ -86,7 +122,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       DashboardItemModel(
           image: ImageConstant.imgImageProduct,
           nikeAirMaxReact: "Nike Air Max 270 React ENG",
-          price: "299,43",
+          price: "599,43",
           oldPrice: "534,33",
           offer: "24% Off"),
       DashboardItemModel(
@@ -114,13 +150,44 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     DashboardInitialEvent event,
     Emitter<DashboardState> emit,
   ) async {
-    emit(state.copyWith(sliderIndex: 0));
+    // emit(state.copyWith(sliderIndex: 0));
+    
+    List<FsnikeairmaxItemModel> fsNikeAirMaxItemList = await fillFsnikeairmaxItemList(state);
     emit(state.copyWith(
         dashboardModelObj: state.dashboardModelObj?.copyWith(
             sliderItemList: fillSliderItemList(),
             categoriesItemList: fillCategoriesItemList(),
-            fsnikeairmaxItemList: fillFsnikeairmaxItemList(),
+            fsnikeairmaxItemList: fsNikeAirMaxItemList,
             msnikeairmaxItemList: fillMsnikeairmaxItemList(),
-            dashboardItemList: fillDashboardItemList())));
+            dashboardItemList: fillDashboardItemList()),
+           ),
+            );
+  }
+
+  Future<Map<String, dynamic>> _fetchData(String hash) async {
+    final url = Uri.parse(_getIPFSpath(hash));
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        // If the server returns a 200 OK response, parse the JSON
+        final jsonData = jsonDecode(response.body);
+
+        // Return the parsed JSON data
+        return jsonData;
+      } else {
+        // If the server returns an error response, throw an exception
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      // Handle any exceptions that occur during the fetch operation
+      print('Error: $e');
+      rethrow; // Rethrow the exception to propagate it to the caller
+    }
+  }
+
+  String _getIPFSpath(String hash){
+    return 'https://ivory-capable-basilisk-139.mypinata.cloud/ipfs/${hash}?pinataGatewayToken=1ROdYSQDquDO-YnO-pxxqQzly6dWUl89hzcRtKVVovYsB7x4AGr1ZV-LzRCpQBUj';
   }
 }

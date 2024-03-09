@@ -15,10 +15,15 @@ class FortyeightItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic>? arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     return CustomImageView(
-      imagePath: ImageConstant.imgProductImage238x375,
+      imagePath: _getIPFSpath(arguments?['imagePaths'][0]),
       height: 238.v,
       width: 375.h,
     );
+  }
+
+  String _getIPFSpath(String hash){
+    return 'https://ivory-capable-basilisk-139.mypinata.cloud/ipfs/${hash}?pinataGatewayToken=1ROdYSQDquDO-YnO-pxxqQzly6dWUl89hzcRtKVVovYsB7x4AGr1ZV-LzRCpQBUj';
   }
 }

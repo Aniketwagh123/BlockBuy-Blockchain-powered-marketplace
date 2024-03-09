@@ -14,3 +14,16 @@ class ProductDetailInitialEvent extends ProductDetailEvent {
   @override
   List<Object?> get props => [];
 }
+
+/// Event that is dispatched when a size is selected.
+class SizeSelectedEvent extends ProductDetailEvent {
+  final int selectedIndex;
+  final String selectedSize; // Add this line to include selectedSize
+
+  SizeSelectedEvent(this.selectedIndex, this.selectedSize);
+
+  @override
+  List<Object?> get props => [selectedIndex, selectedSize];
+}
+
+

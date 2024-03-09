@@ -1,6 +1,7 @@
 /// This class is used in the [cartlist_item_widget] screen.
 class CartlistItemModel {
   CartlistItemModel({
+    this.cartItemImagePath,
     this.nikeAirZoomPegasus,
     this.price,
     this.one,
@@ -10,7 +11,10 @@ class CartlistItemModel {
     price = price ?? "299,43";
     one = one ?? "1";
     id = id ?? "";
+    cartItemImagePath = cartItemImagePath ?? "";
   }
+
+  String? cartItemImagePath;
 
   String? nikeAirZoomPegasus;
 

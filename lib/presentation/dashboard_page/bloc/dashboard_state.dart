@@ -2,6 +2,14 @@
 
 part of 'dashboard_bloc.dart';
 
+// ignore_for_file: must_be_immutable
+
+// import 'package:equatable/equatable.dart';
+// import 'package:flutter/material.dart';
+// import '../models/dashboard_model.dart';
+
+// part of 'dashboard_bloc.dart';
+
 /// Represents the state of Dashboard in the application.
 class DashboardState extends Equatable {
   DashboardState({
@@ -10,7 +18,6 @@ class DashboardState extends Equatable {
   });
 
   DashboardModel? dashboardModelObj;
-
   int sliderIndex;
 
   @override
@@ -18,9 +25,11 @@ class DashboardState extends Equatable {
         sliderIndex,
         dashboardModelObj,
       ];
+
   DashboardState copyWith({
     int? sliderIndex,
     DashboardModel? dashboardModelObj,
+    Map<String, dynamic>? productData,
   }) {
     return DashboardState(
       sliderIndex: sliderIndex ?? this.sliderIndex,
@@ -28,3 +37,12 @@ class DashboardState extends Equatable {
     );
   }
 }
+
+/// Represents the loading state of Dashboard in the application.
+/// Represents the loading state of Dashboard in the application.
+class DashboardLoadingState extends DashboardState {
+  DashboardLoadingState({int sliderIndex = 0, DashboardModel? dashboardModelObj})
+      : super(sliderIndex: sliderIndex, dashboardModelObj: dashboardModelObj);
+}
+
+

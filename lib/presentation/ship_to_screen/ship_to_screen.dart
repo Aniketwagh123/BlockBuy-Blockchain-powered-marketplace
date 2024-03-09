@@ -1,3 +1,7 @@
+import 'package:aniket_s_application1/services/locator.dart';
+import 'package:aniket_s_application1/services/walletConnectServices.dart';
+import 'package:web3modal_flutter/services/w3m_service/w3m_service.dart';
+
 import '../ship_to_screen/widgets/shiptolist_item_widget.dart';
 import 'bloc/ship_to_bloc.dart';
 import 'models/ship_to_model.dart';
@@ -97,8 +101,10 @@ class ShipToScreen extends StatelessWidget {
 
   /// Navigates to the paymentMethodScreen when the action is triggered.
   onTapNextButton(BuildContext context) {
-    NavigatorService.pushNamed(
-      AppRoutes.paymentMethodScreen,
-    );
+    // NavigatorService.pushNamed(
+    //   AppRoutes.paymentMethodScreen,
+    // );
+    W3MService _w3mService = getIt<WalletServices>().ge_w3mService();
+    _w3mService.launchConnectedWallet();
   }
 }

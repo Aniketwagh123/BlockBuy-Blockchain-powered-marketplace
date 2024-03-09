@@ -13,6 +13,8 @@ part 'product_detail_state.dart';
 class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
   ProductDetailBloc(ProductDetailState initialState) : super(initialState) {
     on<ProductDetailInitialEvent>(_onInitialize);
+    on<SizeSelectedEvent>(
+        _onSelected); // Add this line to register SizeSelectedEvent handler
   }
 
   List<FortyeightItemModel> fillFortyeightItemList() {
@@ -21,12 +23,12 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
 
   List<SizesItemModel> fillSizesItemList() {
     return [
-      SizesItemModel(six: "6"),
-      SizesItemModel(six: "6.5"),
-      SizesItemModel(six: "7"),
-      SizesItemModel(six: "7.5"),
-      SizesItemModel(six: "8"),
-      SizesItemModel(six: "8.5")
+      SizesItemModel(six: "XS"),
+      SizesItemModel(six: "S"),
+      SizesItemModel(six: "M"),
+      SizesItemModel(six: "L"),
+      SizesItemModel(six: "XL"),
+      SizesItemModel(six: "XXL")
     ];
   }
 
@@ -72,5 +74,29 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
             sizesItemList: fillSizesItemList(),
             productsItemList: fillProductsItemList(),
             recomendedItemList: fillRecomendedItemList())));
+  }
+
+  _onSelected(
+    SizeSelectedEvent event,
+    Emitter<ProductDetailState> emit,
+  ) async {
+    final int selectedIndex = event.selectedIndex;
+
+    final List<SizesItemModel>? sizes =
+        state.productDetailModelObj?.sizesItemList;
+
+    if (sizes != null && selectedIndex >= 0 && selectedIndex < sizes.length) {
+      final selectedSize = sizes[selectedIndex];
+
+      final List<SizesItemModel> updatedSizes = sizes.map((sizeItem) {
+        return sizeItem.copyWith(selected: sizeItem == selectedSize);
+      }).toList();
+
+      emit(state.copyWith(
+        productDetailModelObj: state.productDetailModelObj?.copyWith(
+          sizesItemList: updatedSizes,
+        ),
+      ));
+    }
   }
 }

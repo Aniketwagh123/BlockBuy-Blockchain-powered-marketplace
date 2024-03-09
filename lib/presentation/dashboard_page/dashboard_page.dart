@@ -1,3 +1,5 @@
+import 'package:shimmer/shimmer.dart';
+
 import '../dashboard_page/widgets/categories_item_widget.dart';
 import '../dashboard_page/widgets/dashboard_item_widget.dart';
 import '../dashboard_page/widgets/fsnikeairmax_item_widget.dart';
@@ -27,7 +29,7 @@ class DashboardPage extends StatelessWidget {
         create: (context) =>
             DashboardBloc(DashboardState(dashboardModelObj: DashboardModel()))
               ..add(DashboardInitialEvent()),
-        child: DashboardPage());
+        child: const DashboardPage());
   }
 
   @override
@@ -217,26 +219,57 @@ class DashboardPage extends StatelessWidget {
   /// Section Widget
   Widget _buildFsNikeAirMax(BuildContext context) {
     return SizedBox(
-        height: 238.v,
-        child: BlocSelector<DashboardBloc, DashboardState, DashboardModel?>(
-            selector: (state) => state.dashboardModelObj,
-            builder: (context, dashboardModelObj) {
-              return ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  separatorBuilder: (context, index) {
-                    return SizedBox(width: 16.h);
-                  },
-                  itemCount:
-                      dashboardModelObj?.fsnikeairmaxItemList.length ?? 0,
-                  itemBuilder: (context, index) {
-                    FsnikeairmaxItemModel model =
-                        dashboardModelObj?.fsnikeairmaxItemList[index] ??
-                            FsnikeairmaxItemModel();
-                    return FsnikeairmaxItemWidget(model, onTapProductItem: () {
-                      onTapProductItem(context);
-                    });
-                  });
-            }));
+      height: 238.v,
+      child: BlocSelector<DashboardBloc, DashboardState, DashboardState>(
+        selector: (state) => state,
+        builder: (context, state) {
+          if (state.dashboardModelObj == null ||
+              state.dashboardModelObj!.fsnikeairmaxItemList.isEmpty) {
+            // Return shimmering effect while data is loading or empty
+            return ListView.separated(
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) {
+                return SizedBox(width: 16.h);
+              },
+              itemCount: 5, // Adjust as needed
+              itemBuilder: (context, index) {
+                return _buildShimmeringItem(); // Build shimmering item
+              },
+            );
+          } else {
+            // Return actual data once loaded
+            return ListView.separated(
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) {
+                return SizedBox(width: 16.h);
+              },
+              itemCount: state.dashboardModelObj!.fsnikeairmaxItemList.length,
+              itemBuilder: (context, index) {
+                FsnikeairmaxItemModel model =
+                    state.dashboardModelObj!.fsnikeairmaxItemList[index];
+                return FsnikeairmaxItemWidget(model, onTapProductItem: () {
+                  onTapProductItem(context,model.jsonData);
+                });
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildShimmeringItem() {
+    return SizedBox(
+      width: 150,
+      height: 238.v,
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          color: Colors.white,
+        ),
+      ),
+    );
   }
 
   /// Section Widget
@@ -327,9 +360,10 @@ class DashboardPage extends StatelessWidget {
   }
 
   /// Navigates to the productDetailScreen when the action is triggered.
-  onTapProductItem(BuildContext context) {
+  onTapProductItem(BuildContext context, Map<String, dynamic>? productData) {
     NavigatorService.pushNamed(
       AppRoutes.productDetailScreen,
+      arguments: productData,
     );
   }
 }

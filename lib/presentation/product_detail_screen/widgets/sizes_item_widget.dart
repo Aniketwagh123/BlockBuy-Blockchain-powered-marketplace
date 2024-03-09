@@ -16,7 +16,7 @@ class SizesItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 48.adaptSize,
+      width: 70.adaptSize,
       padding: EdgeInsets.symmetric(
         horizontal: 19.h,
         vertical: 13.v,
@@ -27,6 +27,8 @@ class SizesItemWidget extends StatelessWidget {
       child: Text(
         sizesItemModelObj.six!,
         style: theme.textTheme.titleSmall,
+        overflow: TextOverflow.ellipsis, // or TextOverflow.clip, TextOverflow.fade
+        textAlign: TextAlign.center, 
       ),
     );
   }

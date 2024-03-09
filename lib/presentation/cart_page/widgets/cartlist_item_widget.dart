@@ -24,7 +24,7 @@ class CartlistItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           CustomImageView(
-            imagePath: ImageConstant.imgImageProduct,
+            imagePath: cartlistItemModelObj.cartItemImagePath,
             height: 72.adaptSize,
             width: 72.adaptSize,
             radius: BorderRadius.circular(
@@ -76,7 +76,7 @@ class CartlistItemWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      cartlistItemModelObj.price!,
+                      "\$ ${cartlistItemModelObj.price!}",
                       style: CustomTextStyles.labelLargePrimary,
                     ),
                     Spacer(),

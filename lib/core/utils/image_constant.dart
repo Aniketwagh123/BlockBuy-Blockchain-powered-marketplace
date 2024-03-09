@@ -152,6 +152,9 @@ class ImageConstant {
   static String imgProductImage109x109 =
       '$imagePath/img_product_image_109x109.png';
 
+  static String imgProductImage0 = '$imagePath/no-image-icon.png';
+
+
   static String imgProductImage1 = '$imagePath/img_product_image_1.png';
 
   static String imgProductImage2 = '$imagePath/img_product_image_2.png';
