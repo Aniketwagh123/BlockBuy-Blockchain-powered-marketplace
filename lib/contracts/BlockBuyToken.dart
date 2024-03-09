@@ -1171,4 +1171,4 @@ const abi = [
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+];
