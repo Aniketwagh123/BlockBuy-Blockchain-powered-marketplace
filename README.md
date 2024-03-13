@@ -51,6 +51,11 @@ Advantages:
 - 🎨 Rich User Interfaces: With Flutter's rich set of customizable widgets and animations, BlockBuy delivers a visually appealing and engaging user interface.
 - 🚀 Fast Development Cycle: Flutter's hot reload feature enables developers to see changes in real-time, speeding up the development process and facilitating rapid iteration.
 
+## Sequence Diagram
+
+![Sequence Diagram](sequence-diagram.svg)
+
+
 ## 🚀 Get Started
 
 To get started with BlockBuy and experience the future of decentralized marketplaces, follow these steps:
