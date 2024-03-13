@@ -51,9 +51,108 @@ Advantages:
 - 🎨 Rich User Interfaces: With Flutter's rich set of customizable widgets and animations, BlockBuy delivers a visually appealing and engaging user interface.
 - 🚀 Fast Development Cycle: Flutter's hot reload feature enables developers to see changes in real-time, speeding up the development process and facilitating rapid iteration.
 
-## Sequence Diagram
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant BlockBuyApp
+    participant Wallet
+    participant IPFS
+    participant Blockchain
+    actor Seller
+    participant Escrow
 
-![Sequence Diagram](sequence-diagram.svg)
+    Note right of Escrow: It is smart contract <br>to settle transactions <br>using ERC20 tokens
+    Note right of Blockchain: It is Ethereum blockchain
+    Note right of BlockBuyApp: It is Flutter App
+    
+    rect rgb(191, 223, 255)
+    User->>BlockBuyApp: Launches BlockBuy app
+    BlockBuyApp->>User: Displays "Connect Wallet" option
+    User->>BlockBuyApp: Selects "Connect Wallet"
+    BlockBuyApp->>User: Displays list of 320+ supported wallets
+    User->>BlockBuyApp: Selects preferred wallet
+    BlockBuyApp->>Wallet: Redirects user for authentication
+    Wallet->>BlockBuyApp: User grants permission
+    BlockBuyApp->>Wallet: Establishes secure session
+    Wallet-->>BlockBuyApp: Secure session established
+    BlockBuyApp-->>User: Logged in to App
+    end
+
+    rect rgb(230,230,250)
+    Seller->>BlockBuyApp: Add New Product
+    BlockBuyApp->>Seller: Prompts for product details
+    Seller->>BlockBuyApp: Inputs product details
+    BlockBuyApp->>Seller: Prompts to upload descriptions files and images
+    Seller->>BlockBuyApp: Uploads files
+    BlockBuyApp->>IPFS: Uploads files
+    IPFS-->>IPFS: Creates unique hashes of files
+    Note over IPFS,IPFS: Hash is unique for the content
+    rect rgb(221,160,221)
+    alt is hash exist
+        IPFS->>BlockBuyApp: Product already exists
+    else is hash not exist
+        IPFS-->>IPFS: save the file across IPFS nodes
+        IPFS->>BlockBuyApp: Returns file hashes
+    end
+    end
+
+    BlockBuyApp-->>BlockBuyApp: Creates transaction with IPFS hash and other details
+    %% Blockchain-->>BlockBuyApp: Transaction recorded
+    BlockBuyApp->>User: Redirects to sign transaction
+    User->>Wallet: Signs transaction
+    Wallet-->>User: Transaction signed
+    User->>Blockchain: Send transaction to blockchain
+    Blockchain-->Blockchain: Execute smart contracts and verify transaction
+    Blockchain-->Blockchain: Add transaction to ledger
+    %% BlockBuyApp->>User: Product successfully listed
+
+    BlockBuyApp->>Seller: Notifies of new product listing
+    %% Seller->>BlockBuyApp: Acknowledges notification
+    end
+
+    rect rgb(240,255,240)
+    User->>BlockBuyApp: Browses products
+    BlockBuyApp->>Blockchain: Fetches product listings
+    Blockchain-->>BlockBuyApp: Product listings retrieved
+    BlockBuyApp->>IPFS: Fetches product images and details
+    IPFS-->>BlockBuyApp: Product details fetched
+    BlockBuyApp-->>User: Displays products and details
+    User->>BlockBuyApp: Interacts with products
+
+    User->>BlockBuyApp: Selects "Buy product"
+    BlockBuyApp->>User: Initiates purchase process
+    User->>BlockBuyApp: Confirms purchase
+    BlockBuyApp->>Wallet: Creates transaction
+    Wallet->>BlockBuyApp: Signs transaction
+    BlockBuyApp->>Blockchain: Send transaction
+    %% Blockchain-->>BlockBuyApp: Transaction recorded
+    Blockchain->>Escrow: Sets up escrow for purchase
+    %% Escrow-->>BlockBuyApp: Escrow created
+    BlockBuyApp->>Seller: Notifies to dispatch product
+    Seller->>BlockBuyApp: Acknowledges notification
+    BlockBuyApp->>User: Waits for product delivery
+    Seller->>BlockBuyApp: Dispatches product
+    User-->>BlockBuyApp: Confirm or Reject product delivery
+
+    rect rgb(255,228,225)
+
+    alt On Confirm
+        BlockBuyApp->>Escrow: Releases funds to seller
+        Escrow->> Seller: Fund release to seller
+        Escrow-->>BlockBuyApp: Notify funds released
+        BlockBuyApp-->>Seller: Transaction complete
+    else On Reject
+        BlockBuyApp->>Escrow: Releases refunds to buyer
+        Escrow->> User: Fund release to buyer
+        Escrow->>BlockBuyApp: Notify refunds released to buyer
+        BlockBuyApp-->>User: Transaction Rejected
+    end
+    end
+    end
+
+```
+
 
 
 ## 🚀 Get Started
